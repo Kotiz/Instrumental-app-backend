@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "instrument_models",
+  "info": {
+    "singularName": "instrument-model",
+    "pluralName": "instrument-models",
+    "displayName": "Instrument Model",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "instrument_type": {
+      "type": "enumeration",
+      "enum": [
+        "drums",
+        "electric guitar",
+        "acoustic guitar",
+        "trompet"
+      ],
+      "required": true
+    },
+    "manufacturer": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::manufacturer.manufacturer",
+      "inversedBy": "instrument_models"
+    },
+    "instrument": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::instrument.instrument",
+      "mappedBy": "instrument_model"
+    }
+  }
+}

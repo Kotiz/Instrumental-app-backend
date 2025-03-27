@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "messages",
+  "info": {
+    "singularName": "message",
+    "pluralName": "messages",
+    "displayName": "Message"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "content": {
+      "type": "text"
+    },
+    "sent_at": {
+      "type": "datetime"
+    },
+    "is_read": {
+      "type": "boolean"
+    },
+    "sender": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "sent_messages"
+    },
+    "recipient": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "received_messages"
+    },
+    "instrument": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::instrument.instrument",
+      "inversedBy": "message"
+    }
+  }
+}

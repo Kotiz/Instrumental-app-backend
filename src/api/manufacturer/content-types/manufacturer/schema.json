@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "manufacturers",
+  "info": {
+    "singularName": "manufacturer",
+    "pluralName": "manufacturers",
+    "displayName": "Manufacturer"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "instrument_models": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::instrument-model.instrument-model",
+      "inversedBy": "manufacturer"
+    }
+  }
+}

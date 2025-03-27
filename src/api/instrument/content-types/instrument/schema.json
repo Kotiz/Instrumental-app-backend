@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "instruments",
+  "info": {
+    "singularName": "instrument",
+    "pluralName": "instruments",
+    "displayName": "Instrument"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "is_full_set": {
+      "type": "boolean"
+    },
+    "custom_model_name": {
+      "type": "string"
+    },
+    "year": {
+      "type": "integer"
+    },
+    "purchase_price": {
+      "type": "decimal"
+    },
+    "purchase_date": {
+      "type": "date"
+    },
+    "is_public": {
+      "type": "boolean"
+    },
+    "instrument_model": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::instrument-model.instrument-model",
+      "inversedBy": "instrument"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "instrument"
+    },
+    "message": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::message.message",
+      "mappedBy": "instrument"
+    }
+  }
+}
