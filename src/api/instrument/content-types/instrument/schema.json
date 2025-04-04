@@ -4,7 +4,8 @@
   "info": {
     "singularName": "instrument",
     "pluralName": "instruments",
-    "displayName": "Instrument"
+    "displayName": "Instrument",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -34,17 +35,36 @@
       "target": "api::instrument-model.instrument-model",
       "inversedBy": "instrument"
     },
-    "users_permissions_user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "instrument"
-    },
     "message": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::message.message",
       "mappedBy": "instrument"
+    },
+    "note": {
+      "type": "text"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "manufacturer": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::manufacturer.manufacturer"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "serial_number": {
+      "type": "string"
     }
   }
 }

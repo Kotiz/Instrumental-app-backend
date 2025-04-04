@@ -9,7 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -65,12 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "instrument": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::instrument.instrument",
-      "mappedBy": "users_permissions_user"
-    },
     "post": {
       "type": "relation",
       "relation": "oneToOne",
@@ -100,6 +94,11 @@
       "relation": "oneToOne",
       "target": "api::friendship.friendship",
       "mappedBy": "to_user"
+    },
+    "instruments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::instrument.instrument"
     }
   }
 }

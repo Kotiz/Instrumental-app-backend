@@ -4,7 +4,8 @@
   "info": {
     "singularName": "manufacturer",
     "pluralName": "manufacturers",
-    "displayName": "Manufacturer"
+    "displayName": "Manufacturer",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,9 +17,8 @@
     },
     "instrument_models": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::instrument-model.instrument-model",
-      "inversedBy": "manufacturer"
+      "relation": "oneToMany",
+      "target": "api::instrument-model.instrument-model"
     }
   }
 }

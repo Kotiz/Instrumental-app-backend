@@ -14,27 +14,21 @@
     "name": {
       "type": "string"
     },
-    "instrument_type": {
-      "type": "enumeration",
-      "enum": [
-        "drums",
-        "electric guitar",
-        "acoustic guitar",
-        "trompet"
-      ],
-      "required": true
-    },
-    "manufacturer": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::manufacturer.manufacturer",
-      "inversedBy": "instrument_models"
-    },
     "instrument": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::instrument.instrument",
       "mappedBy": "instrument_model"
+    },
+    "manufacturers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::manufacturer.manufacturer"
+    },
+    "instrument_type_rel": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::instrument-type.instrument-type"
     }
   }
 }

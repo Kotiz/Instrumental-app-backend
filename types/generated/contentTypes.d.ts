@@ -429,18 +429,18 @@ export interface ApiInstrumentModelInstrumentModel
       'oneToOne',
       'api::instrument.instrument'
     >;
-    instrument_type: Schema.Attribute.Enumeration<
-      ['drums', 'electric guitar', 'acoustic guitar', 'trompet']
-    > &
-      Schema.Attribute.Required;
+    instrument_type_rel: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::instrument-type.instrument-type'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::instrument-model.instrument-model'
     > &
       Schema.Attribute.Private;
-    manufacturer: Schema.Attribute.Relation<
-      'oneToOne',
+    manufacturers: Schema.Attribute.Relation<
+      'oneToMany',
       'api::manufacturer.manufacturer'
     >;
     name: Schema.Attribute.String;
@@ -451,9 +451,42 @@ export interface ApiInstrumentModelInstrumentModel
   };
 }
 
+export interface ApiInstrumentTypeInstrumentType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'instrument_types';
+  info: {
+    displayName: 'Instrument Type';
+    pluralName: 'instrument-types';
+    singularName: 'instrument-type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::instrument-type.instrument-type'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiInstrumentInstrument extends Struct.CollectionTypeSchema {
   collectionName: 'instruments';
   info: {
+    description: '';
     displayName: 'Instrument';
     pluralName: 'instruments';
     singularName: 'instrument';
@@ -466,6 +499,7 @@ export interface ApiInstrumentInstrument extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     custom_model_name: Schema.Attribute.String;
+    images: Schema.Attribute.Media<'images' | 'files', true>;
     instrument_model: Schema.Attribute.Relation<
       'oneToOne',
       'api::instrument-model.instrument-model'
@@ -478,17 +512,23 @@ export interface ApiInstrumentInstrument extends Struct.CollectionTypeSchema {
       'api::instrument.instrument'
     > &
       Schema.Attribute.Private;
+    manufacturer: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::manufacturer.manufacturer'
+    >;
     message: Schema.Attribute.Relation<'oneToOne', 'api::message.message'>;
-    publishedAt: Schema.Attribute.DateTime;
-    purchase_date: Schema.Attribute.Date;
-    purchase_price: Schema.Attribute.Decimal;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
+    note: Schema.Attribute.Text;
+    owner: Schema.Attribute.Relation<
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    publishedAt: Schema.Attribute.DateTime;
+    purchase_date: Schema.Attribute.Date;
+    purchase_price: Schema.Attribute.Decimal;
+    serial_number: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
     year: Schema.Attribute.Integer;
   };
 }
@@ -497,6 +537,7 @@ export interface ApiManufacturerManufacturer
   extends Struct.CollectionTypeSchema {
   collectionName: 'manufacturers';
   info: {
+    description: '';
     displayName: 'Manufacturer';
     pluralName: 'manufacturers';
     singularName: 'manufacturer';
@@ -509,7 +550,7 @@ export interface ApiManufacturerManufacturer
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     instrument_models: Schema.Attribute.Relation<
-      'oneToOne',
+      'oneToMany',
       'api::instrument-model.instrument-model'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1054,7 +1095,6 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -1068,8 +1108,8 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    instrument: Schema.Attribute.Relation<
-      'oneToOne',
+    instruments: Schema.Attribute.Relation<
+      'oneToMany',
       'api::instrument.instrument'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1131,6 +1171,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::friendship.friendship': ApiFriendshipFriendship;
       'api::instrument-model.instrument-model': ApiInstrumentModelInstrumentModel;
+      'api::instrument-type.instrument-type': ApiInstrumentTypeInstrumentType;
       'api::instrument.instrument': ApiInstrumentInstrument;
       'api::manufacturer.manufacturer': ApiManufacturerManufacturer;
       'api::message.message': ApiMessageMessage;
